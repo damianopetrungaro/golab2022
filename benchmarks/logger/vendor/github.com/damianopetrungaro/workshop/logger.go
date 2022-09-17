@@ -1,7 +1,7 @@
 package workshop
 
 import (
-	"encoding/json"
+	"bytes"
 	"fmt"
 	"io"
 )
@@ -59,19 +59,13 @@ func (s StdLogger) Fatal(msg string) {
 }
 
 func (s StdLogger) write(lvl Level, msg string) {
-	type log struct {
-		Level   string `json:"level"`
-		Message string `json:"message"`
-		Fields  Fields `json:"fields"`
-	}
-	data, err := json.Marshal(log{
-		Level:   string(lvl),
-		Message: msg,
-		Fields:  s.fields,
-	})
-	if err != nil {
+
+	buf := &bytes.Buffer{}
+	buf.WriteString(fmt.Sprintf(`{"level":"%s","message":"%s","fields":`, string(lvl), msg))
+	s.fields.Append(buf)
+	buf.WriteString(fmt.Sprintf(`}`))
+
+	if _, err := buf.WriteTo(s.w); err != nil {
 		panic(err)
 	}
-
-	_, _ = fmt.Fprint(s.w, string(data))
 }

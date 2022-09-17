@@ -1,6 +1,7 @@
 package workshop
 
 import (
+	"bytes"
 	"strconv"
 )
 
@@ -12,18 +13,29 @@ type (
 	}
 )
 
-func (f Field) MarshalJSON() ([]byte, error) {
-	s := `{"` + f.k + `":`
-	switch t := f.v.(type) {
-	case string:
-		s = s + `"` + t + `"`
-	case int:
-		s = s + strconv.Itoa(t)
-	default:
-		s = s + `"--error--"`
+func (fs Fields) Append(buf *bytes.Buffer) {
+	buf.WriteString(`[`)
+	for i, f := range fs {
+		i++
+		buf.WriteString(`{"`)
+		buf.WriteString(f.k)
+		buf.WriteString(`":`)
+		switch t := f.v.(type) {
+		case string:
+			buf.WriteString(`"`)
+			buf.WriteString(t)
+			buf.WriteString(`"`)
+		case int:
+			buf.WriteString(strconv.Itoa(t))
+		default:
+			buf.WriteString(`"--error--"`)
+		}
+		buf.WriteString(`}`)
+		if i != len(fs) {
+			buf.WriteString(`,`)
+		}
 	}
-	s = s + `}`
-	return []byte(s), nil
+	buf.WriteString(`]`)
 }
 
 func String(k, v string) Field {
