@@ -13,50 +13,37 @@ import (
 
 /**
 go test --bench=. --benchmem -benchtime=2s -count=5
-<<<<<<< HEAD
-Benchmark_WorkshopLogger/simple_info_log-12             19857986               115.1 ns/op           240 B/op          4 allocs/op
-Benchmark_WorkshopLogger/simple_info_log-12             21409348               112.4 ns/op           240 B/op          4 allocs/op
-Benchmark_WorkshopLogger/simple_info_log-12             21454494               111.5 ns/op           240 B/op          4 allocs/op
-Benchmark_WorkshopLogger/simple_info_log-12             21650558               118.5 ns/op           240 B/op          4 allocs/op
-Benchmark_WorkshopLogger/simple_info_log-12             20154054               125.1 ns/op           240 B/op          4 allocs/op
-Benchmark_WorkshopLogger/log_info_with_5_fields-12       1344625              1742 ns/op            4084 B/op         52 allocs/op
-Benchmark_WorkshopLogger/log_info_with_5_fields-12       1426080              1720 ns/op            4084 B/op         52 allocs/op
-Benchmark_WorkshopLogger/log_info_with_5_fields-12       1355678              1741 ns/op            4084 B/op         52 allocs/op
-Benchmark_WorkshopLogger/log_info_with_5_fields-12       1323265              1768 ns/op            4085 B/op         52 allocs/op
-Benchmark_WorkshopLogger/log_info_with_5_fields-12       1389840              1795 ns/op            4084 B/op         52 allocs/op
-Benchmark_LogrusLogger/simple_info_log-12                 973387              2144 ns/op             513 B/op         16 allocs/op
-Benchmark_LogrusLogger/simple_info_log-12                1000000              2071 ns/op             513 B/op         16 allocs/op
-Benchmark_LogrusLogger/simple_info_log-12                1000000              2064 ns/op             513 B/op         16 allocs/op
-Benchmark_LogrusLogger/simple_info_log-12                1000000              2075 ns/op             513 B/op         16 allocs/op
+Benchmark_WorkshopLogger/simple_info_log-12             19323600               114.3 ns/op           240 B/op          4 allocs/op
+Benchmark_WorkshopLogger/simple_info_log-12             22000051               110.4 ns/op           240 B/op          4 allocs/op
+Benchmark_WorkshopLogger/simple_info_log-12             21835646               112.4 ns/op           240 B/op          4 allocs/op
+Benchmark_WorkshopLogger/simple_info_log-12             20922128               119.7 ns/op           240 B/op          4 allocs/op
+Benchmark_WorkshopLogger/simple_info_log-12             18388087               135.8 ns/op           240 B/op          4 allocs/op
+Benchmark_WorkshopLogger/log_info_with_5_fields-12       1372326              1757 ns/op            4084 B/op         52 allocs/op
+Benchmark_WorkshopLogger/log_info_with_5_fields-12       1280415              1830 ns/op            4084 B/op         52 allocs/op
+Benchmark_WorkshopLogger/log_info_with_5_fields-12       1000000              3286 ns/op            4083 B/op         52 allocs/op
+Benchmark_WorkshopLogger/log_info_with_5_fields-12       1032081              1960 ns/op            4084 B/op         52 allocs/op
+Benchmark_WorkshopLogger/log_info_with_5_fields-12       1346217              1849 ns/op            4085 B/op         52 allocs/op
+Benchmark_LogrusLogger/simple_info_log-12                1000000              2169 ns/op             513 B/op         16 allocs/op
+Benchmark_LogrusLogger/simple_info_log-12                1000000              2079 ns/op             513 B/op         16 allocs/op
+Benchmark_LogrusLogger/simple_info_log-12                1000000              2085 ns/op             513 B/op         16 allocs/op
 Benchmark_LogrusLogger/simple_info_log-12                1000000              2070 ns/op             513 B/op         16 allocs/op
-Benchmark_LogrusLogger/log_info_with_5_fields-12          416242              5785 ns/op            3360 B/op         43 allocs/op
-Benchmark_LogrusLogger/log_info_with_5_fields-12          423064              5746 ns/op            3360 B/op         43 allocs/op
-Benchmark_LogrusLogger/log_info_with_5_fields-12          416894              5683 ns/op            3360 B/op         43 allocs/op
-Benchmark_LogrusLogger/log_info_with_5_fields-12          427000              5722 ns/op            3360 B/op         43 allocs/op
-Benchmark_LogrusLogger/log_info_with_5_fields-12          422842              5718 ns/op            3359 B/op         43 allocs/op
-Benchmark_ZapLogger/simple_info_log-12                  22104961               113.6 ns/op             0 B/op          0 allocs/op
-Benchmark_ZapLogger/simple_info_log-12                  21326161               113.4 ns/op             0 B/op          0 allocs/op
-Benchmark_ZapLogger/simple_info_log-12                  21195076               115.0 ns/op             0 B/op          0 allocs/op
-Benchmark_ZapLogger/simple_info_log-12                  21099259               116.0 ns/op             0 B/op          0 allocs/op
-Benchmark_ZapLogger/simple_info_log-12                  20416849               117.2 ns/op             0 B/op          0 allocs/op
-Benchmark_ZapLogger/log_info_with_5_fields-12            1319438              1890 ns/op            6733 B/op         30 allocs/op
-Benchmark_ZapLogger/log_info_with_5_fields-12            1346614              1750 ns/op            6733 B/op         30 allocs/op
-Benchmark_ZapLogger/log_info_with_5_fields-12            1354759              1782 ns/op            6733 B/op         30 allocs/op
-Benchmark_ZapLogger/log_info_with_5_fields-12            1316520              1776 ns/op            6733 B/op         30 allocs/op
-Benchmark_ZapLogger/log_info_with_5_fields-12            1345928              1763 ns/op            6733 B/op         30 allocs/op
-=======
-Benchmark_WorkshopLogger/simple_info_log-12             41561128                50.11 ns/op           32 B/op          2 allocs/op
-Benchmark_WorkshopLogger/simple_info_log-12             46491171                49.42 ns/op           32 B/op          2 allocs/op
-Benchmark_WorkshopLogger/simple_info_log-12             48416540                50.55 ns/op           32 B/op          2 allocs/op
-Benchmark_WorkshopLogger/simple_info_log-12             48467454                51.60 ns/op           32 B/op          2 allocs/op
-Benchmark_WorkshopLogger/simple_info_log-12             37740775                62.50 ns/op           32 B/op          2 allocs/op
-Benchmark_WorkshopLogger/log_info_with_5_fields-12       4094596               545.5 ns/op           969 B/op         21 allocs/op
-Benchmark_WorkshopLogger/log_info_with_5_fields-12       4486573               551.0 ns/op           969 B/op         21 allocs/op
-Benchmark_WorkshopLogger/log_info_with_5_fields-12       4312716               556.1 ns/op           969 B/op         21 allocs/op
-Benchmark_WorkshopLogger/log_info_with_5_fields-12       4406878               544.0 ns/op           969 B/op         21 allocs/op
-Benchmark_WorkshopLogger/log_info_with_5_fields-12       4361113               559.7 ns/op           969 B/op         21 allocs/op
+Benchmark_LogrusLogger/simple_info_log-12                1000000              2088 ns/op             513 B/op         16 allocs/op
+Benchmark_LogrusLogger/log_info_with_5_fields-12          407560              5747 ns/op            3360 B/op         43 allocs/op
+Benchmark_LogrusLogger/log_info_with_5_fields-12          415886              5742 ns/op            3360 B/op         43 allocs/op
+Benchmark_LogrusLogger/log_info_with_5_fields-12          415995              5682 ns/op            3360 B/op         43 allocs/op
+Benchmark_LogrusLogger/log_info_with_5_fields-12          410802              5889 ns/op            3360 B/op         43 allocs/op
+Benchmark_LogrusLogger/log_info_with_5_fields-12          418998              5743 ns/op            3360 B/op         43 allocs/op
+Benchmark_ZapLogger/simple_info_log-12                  20071482               138.2 ns/op             0 B/op          0 allocs/op
+Benchmark_ZapLogger/simple_info_log-12                  20010974               129.6 ns/op             0 B/op          0 allocs/op
+Benchmark_ZapLogger/simple_info_log-12                  18857326               136.5 ns/op             0 B/op          0 allocs/op
+Benchmark_ZapLogger/simple_info_log-12                  18673839               126.5 ns/op             0 B/op          0 allocs/op
+Benchmark_ZapLogger/simple_info_log-12                  18939207               131.7 ns/op             0 B/op          0 allocs/op
+Benchmark_ZapLogger/log_info_with_5_fields-12            1235990              1933 ns/op            6733 B/op         30 allocs/op
+Benchmark_ZapLogger/log_info_with_5_fields-12            1215138              1908 ns/op            6733 B/op         30 allocs/op
+Benchmark_ZapLogger/log_info_with_5_fields-12            1290912              1825 ns/op            6733 B/op         30 allocs/op
+Benchmark_ZapLogger/log_info_with_5_fields-12            1332651              1824 ns/op            6733 B/op         30 allocs/op
+Benchmark_ZapLogger/log_info_with_5_fields-12            1279083              2049 ns/op            6733 B/op         30 allocs/op
 
->>>>>>> 1f9bf77 (feat: add fields)
 */
 func Benchmark_WorkshopLogger(b *testing.B) {
 	b.Run("simple info log", func(b *testing.B) {
@@ -84,7 +71,6 @@ func Benchmark_WorkshopLogger(b *testing.B) {
 			}
 		})
 	})
-<<<<<<< HEAD
 }
 
 func Benchmark_LogrusLogger(b *testing.B) {
@@ -145,6 +131,4 @@ func Benchmark_ZapLogger(b *testing.B) {
 			}
 		})
 	})
-=======
->>>>>>> 1f9bf77 (feat: add fields)
 }

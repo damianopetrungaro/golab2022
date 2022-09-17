@@ -71,6 +71,7 @@ func (s StdLogger) Fatal(msg string) {
 }
 
 func (s StdLogger) write(lvl Level, msg string) {
+
 	type log struct {
 		Level   string `json:"level"`
 		Message string `json:"message"`
