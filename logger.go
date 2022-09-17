@@ -1,7 +1,7 @@
 package workshop
 
 import (
-	"encoding/json"
+	"bytes"
 	"fmt"
 	"io"
 )
@@ -16,20 +16,8 @@ const (
 	Fatal   Level = "FATAL"
 )
 
-type (
-	Fields []Field
-	Field  struct {
-		K string
-		V any
-	}
-)
-
-func (f Field) MarshalJSON() ([]byte, error) {
-	return json.Marshal(map[string]any{f.K: f.V})
-}
-
 type Logger interface {
-	With(k string, v any) Logger
+	With(fields ...Field) Logger
 	Debug(msg string)
 	Info(msg string)
 	Warning(msg string)
@@ -46,8 +34,8 @@ func New(w io.Writer) *StdLogger {
 	return &StdLogger{w: w, fields: Fields{}}
 }
 
-func (s StdLogger) With(k string, v any) Logger {
-	return &StdLogger{w: s.w, fields: append(s.fields, Field{K: k, V: v})}
+func (s StdLogger) With(fields ...Field) Logger {
+	return &StdLogger{w: s.w, fields: append(s.fields, fields...)}
 }
 
 func (s StdLogger) Debug(msg string) {
@@ -72,19 +60,12 @@ func (s StdLogger) Fatal(msg string) {
 
 func (s StdLogger) write(lvl Level, msg string) {
 
-	type log struct {
-		Level   string `json:"level"`
-		Message string `json:"message"`
-		Fields  Fields `json:"fields"`
-	}
-	data, err := json.Marshal(log{
-		Level:   string(lvl),
-		Message: msg,
-		Fields:  s.fields,
-	})
-	if err != nil {
+	buf := &bytes.Buffer{}
+	buf.WriteString(fmt.Sprintf(`{"level":"%s","message":"%s","fields":`, string(lvl), msg))
+	s.fields.Append(buf)
+	buf.WriteString(fmt.Sprintf(`}`))
+
+	if _, err := buf.WriteTo(s.w); err != nil {
 		panic(err)
 	}
-
-	_, _ = fmt.Fprint(s.w, string(data))
 }
