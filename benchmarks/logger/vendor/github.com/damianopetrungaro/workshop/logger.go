@@ -16,20 +16,8 @@ const (
 	Fatal   Level = "FATAL"
 )
 
-type (
-	Fields []Field
-	Field  struct {
-		K string
-		V any
-	}
-)
-
-func (f Field) MarshalJSON() ([]byte, error) {
-	return json.Marshal(map[string]any{f.K: f.V})
-}
-
 type Logger interface {
-	With(k string, v any) Logger
+	With(fields ...Field) Logger
 	Debug(msg string)
 	Info(msg string)
 	Warning(msg string)
@@ -46,8 +34,8 @@ func New(w io.Writer) *StdLogger {
 	return &StdLogger{w: w, fields: Fields{}}
 }
 
-func (s StdLogger) With(k string, v any) Logger {
-	return &StdLogger{w: s.w, fields: append(s.fields, Field{K: k, V: v})}
+func (s StdLogger) With(fields ...Field) Logger {
+	return &StdLogger{w: s.w, fields: append(s.fields, fields...)}
 }
 
 func (s StdLogger) Debug(msg string) {

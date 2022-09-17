@@ -8,9 +8,9 @@ import (
 func TestStdLogger_With(t *testing.T) {
 	w := &bytes.Buffer{}
 	logger := New(w)
-	loggerWithFields := logger.With("key_1", "value_1").With("key_2", "value_2")
+	loggerWithFields := logger.With(String("name", "workshop"), Int("year", 2022))
 	loggerWithFields.Debug("This is a debug message with fields")
-	if got := w.String(); got != `{"level":"DEBUG","message":"This is a debug message with fields","fields":[{"key_1":"value_1"},{"key_2":"value_2"}]}` {
+	if got := w.String(); got != `{"level":"DEBUG","message":"This is a debug message with fields","fields":[{"name":"workshop"},{"year":2022}]}` {
 		t.Fatalf("could not match message: %s", got)
 	}
 	w.Reset()
