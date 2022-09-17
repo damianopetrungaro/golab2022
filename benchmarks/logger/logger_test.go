@@ -13,6 +13,7 @@ import (
 
 /**
 go test --bench=. --benchmem -benchtime=2s -count=5
+<<<<<<< HEAD
 Benchmark_WorkshopLogger/simple_info_log-12             19857986               115.1 ns/op           240 B/op          4 allocs/op
 Benchmark_WorkshopLogger/simple_info_log-12             21409348               112.4 ns/op           240 B/op          4 allocs/op
 Benchmark_WorkshopLogger/simple_info_log-12             21454494               111.5 ns/op           240 B/op          4 allocs/op
@@ -43,6 +44,19 @@ Benchmark_ZapLogger/log_info_with_5_fields-12            1346614              17
 Benchmark_ZapLogger/log_info_with_5_fields-12            1354759              1782 ns/op            6733 B/op         30 allocs/op
 Benchmark_ZapLogger/log_info_with_5_fields-12            1316520              1776 ns/op            6733 B/op         30 allocs/op
 Benchmark_ZapLogger/log_info_with_5_fields-12            1345928              1763 ns/op            6733 B/op         30 allocs/op
+=======
+Benchmark_WorkshopLogger/simple_info_log-12             41561128                50.11 ns/op           32 B/op          2 allocs/op
+Benchmark_WorkshopLogger/simple_info_log-12             46491171                49.42 ns/op           32 B/op          2 allocs/op
+Benchmark_WorkshopLogger/simple_info_log-12             48416540                50.55 ns/op           32 B/op          2 allocs/op
+Benchmark_WorkshopLogger/simple_info_log-12             48467454                51.60 ns/op           32 B/op          2 allocs/op
+Benchmark_WorkshopLogger/simple_info_log-12             37740775                62.50 ns/op           32 B/op          2 allocs/op
+Benchmark_WorkshopLogger/log_info_with_5_fields-12       4094596               545.5 ns/op           969 B/op         21 allocs/op
+Benchmark_WorkshopLogger/log_info_with_5_fields-12       4486573               551.0 ns/op           969 B/op         21 allocs/op
+Benchmark_WorkshopLogger/log_info_with_5_fields-12       4312716               556.1 ns/op           969 B/op         21 allocs/op
+Benchmark_WorkshopLogger/log_info_with_5_fields-12       4406878               544.0 ns/op           969 B/op         21 allocs/op
+Benchmark_WorkshopLogger/log_info_with_5_fields-12       4361113               559.7 ns/op           969 B/op         21 allocs/op
+
+>>>>>>> 1f9bf77 (feat: add fields)
 */
 func Benchmark_WorkshopLogger(b *testing.B) {
 	b.Run("simple info log", func(b *testing.B) {
@@ -70,6 +84,7 @@ func Benchmark_WorkshopLogger(b *testing.B) {
 			}
 		})
 	})
+<<<<<<< HEAD
 }
 
 func Benchmark_LogrusLogger(b *testing.B) {
@@ -130,4 +145,6 @@ func Benchmark_ZapLogger(b *testing.B) {
 			}
 		})
 	})
+=======
+>>>>>>> 1f9bf77 (feat: add fields)
 }
