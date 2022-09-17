@@ -1,6 +1,7 @@
 package workshop
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 )
@@ -23,6 +24,10 @@ type (
 	}
 )
 
+func (f Field) MarshalJSON() ([]byte, error) {
+	return json.Marshal(map[string]any{f.K: f.V})
+}
+
 type Logger interface {
 	With(k string, v any) Logger
 	Debug(msg string)
@@ -38,7 +43,7 @@ type StdLogger struct {
 }
 
 func New(w io.Writer) *StdLogger {
-	return &StdLogger{w: w}
+	return &StdLogger{w: w, fields: Fields{}}
 }
 
 func (s StdLogger) With(k string, v any) Logger {
@@ -66,5 +71,19 @@ func (s StdLogger) Fatal(msg string) {
 }
 
 func (s StdLogger) write(lvl Level, msg string) {
-	_, _ = fmt.Fprintf(s.w, "%s: %s - fields: %v", lvl, msg, s.fields)
+	type log struct {
+		Level   string `json:"level"`
+		Message string `json:"message"`
+		Fields  Fields `json:"fields"`
+	}
+	data, err := json.Marshal(log{
+		Level:   string(lvl),
+		Message: msg,
+		Fields:  s.fields,
+	})
+	if err != nil {
+		panic(err)
+	}
+
+	_, _ = fmt.Fprint(s.w, string(data))
 }
