@@ -2,6 +2,7 @@ package workshop
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"io"
 )
@@ -18,51 +19,56 @@ const (
 
 type Logger interface {
 	With(fields ...Field) Logger
-	Debug(msg string)
-	Info(msg string)
-	Warning(msg string)
-	Error(msg string)
-	Fatal(msg string)
+	Debug(ctx context.Context, msg string)
+	Info(ctx context.Context, msg string)
+	Warning(ctx context.Context, msg string)
+	Error(ctx context.Context, msg string)
+	Fatal(ctx context.Context, msg string)
 }
 
 type StdLogger struct {
-	w      io.Writer
-	fields Fields
+	w          io.Writer
+	fields     Fields
+	decorators []Decorator
 }
 
-func New(w io.Writer) *StdLogger {
-	return &StdLogger{w: w, fields: Fields{}}
+func New(w io.Writer, decorators ...Decorator) *StdLogger {
+	return &StdLogger{w: w, fields: Fields{}, decorators: decorators}
 }
 
 func (s StdLogger) With(fields ...Field) Logger {
-	return &StdLogger{w: s.w, fields: append(s.fields, fields...)}
+	return &StdLogger{w: s.w, decorators: s.decorators, fields: append(s.fields, fields...)}
 }
 
-func (s StdLogger) Debug(msg string) {
-	s.write(Debug, msg)
+func (s StdLogger) Debug(ctx context.Context, msg string) {
+	s.write(ctx, Debug, msg)
 }
 
-func (s StdLogger) Info(msg string) {
-	s.write(Info, msg)
+func (s StdLogger) Info(ctx context.Context, msg string) {
+	s.write(ctx, Info, msg)
 }
 
-func (s StdLogger) Warning(msg string) {
-	s.write(Warning, msg)
+func (s StdLogger) Warning(ctx context.Context, msg string) {
+	s.write(ctx, Warning, msg)
 }
 
-func (s StdLogger) Error(msg string) {
-	s.write(Error, msg)
+func (s StdLogger) Error(ctx context.Context, msg string) {
+	s.write(ctx, Error, msg)
 }
 
-func (s StdLogger) Fatal(msg string) {
-	s.write(Fatal, msg)
+func (s StdLogger) Fatal(ctx context.Context, msg string) {
+	s.write(ctx, Fatal, msg)
 }
 
-func (s StdLogger) write(lvl Level, msg string) {
+func (s StdLogger) write(ctx context.Context, lvl Level, msg string) {
+	fs := s.fields
+	for _, dec := range s.decorators {
+		fs = append(fs, dec(ctx)...)
+	}
 
 	buf := &bytes.Buffer{}
 	buf.WriteString(fmt.Sprintf(`{"level":"%s","message":"%s","fields":`, string(lvl), msg))
-	s.fields.Append(buf)
+	fs.Append(buf)
 	buf.WriteString(fmt.Sprintf(`}`))
 
 	if _, err := buf.WriteTo(s.w); err != nil {
